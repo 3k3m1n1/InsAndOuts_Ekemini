@@ -26,9 +26,10 @@ void setup() {
 void draw() {
   //white scribble
   fill(255);
-  circle(circleX, circleY, 16);
-  circleX += random(-4, 4);
-  circleY += random(-4, 4);
+  noStroke();
+  //circle(circleX, circleY, 20);
+  //circleX += random(-14, 14);
+  //circleY += random(-14, 14);
 }
 
 void mousePressed() {
