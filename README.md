@@ -1,1 +1,1 @@
-# InsAndOuts_Ekemini
+# MTEC 2280: Ins & Outs
