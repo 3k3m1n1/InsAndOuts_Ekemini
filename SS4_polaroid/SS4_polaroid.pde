@@ -5,7 +5,6 @@
 
 PImage[] moments = new PImage[6];
 int j = 0;
-float circleX = random(60, 340), circleY = random(60, 340);
 
 void setup() {
   size(400, 500);
@@ -24,12 +23,9 @@ void setup() {
 }
 
 void draw() {
-  //white scribble
-  fill(255);
-  noStroke();
-  //circle(circleX, circleY, 20);
-  //circleX += random(-14, 14);
-  //circleY += random(-14, 14);
+  // white lines
+  stroke(255);
+  line(30, random(30, 370), 370, random(30, 370));
 }
 
 void mousePressed() {
