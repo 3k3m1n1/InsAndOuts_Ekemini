@@ -4,28 +4,29 @@
 // instructions: click for a new image.
 
 PImage[] moments = new PImage[6];
+PFont handwriting;
 int j = 0;
 
 void setup() {
   size(400, 500);
   background(255);
   imageMode(CENTER);
-  
-  for (int i = 0; i < 6; i++) {
-    moments[i] = loadImage(i + ".jpg");
-  }
-  
+  fill(0);      // text
+  stroke(255);  // lines
+    
+  for (int i = 0; i < 6; i++) { moments[i] = loadImage(i + ".jpg"); }
   image(moments[j], 200, 200, 340, 340);
   
   fill(0);
-  textSize(30);
+  handwriting = createFont("Lato", 30);
+  textFont(handwriting);
   text("do you remember?", 60, 450);
 }
 
 void draw() {
   // white lines
   stroke(255);
-  line(30, random(30, 370), 370, random(30, 370));
+  line(30, random(0, 400), 370, random(0, 400));
 }
 
 void mousePressed() {
