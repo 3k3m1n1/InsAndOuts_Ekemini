@@ -1,3 +1,7 @@
+// name: ekemini nkanta
+// title: mirror, mirror
+// instructions: switch webcam filters using the left & right arrow keys.
+
 import processing.video.*;
 Capture webcam;
 
@@ -90,18 +94,21 @@ void Pixelate() {
 }
 
 void Glitch() {
-  image(rec, 30, 40); //nice finishing touch, idk
-  filter(GRAY);
+  image(rec, 30, 40);                                 //nice finishing touch :)
+  //filter(GRAY);                                     //the plan was to add pops of color, but i can't tint B&W
   
   //shifts random parts of the image
-  for (yPos = 0; yPos < height; yPos += 90) { 
-    rHeight = random(20, 100);
-    //tint(0, 153, 204);
-    blend(0, yPos, width, int(rHeight), int(random(-30, 40)), yPos, width, int(rHeight), SCREEN);
-    //DODGE and HARD_LIGHT both look good! SOFT_LIGHT is more gentle,  
+  for (yPos = 0; yPos < height; yPos += int(random(110, 200))) { 
+    rHeight = random(5, 120);
+    blend(0, yPos, width, int(rHeight), int(random(-20, 30)), yPos, width, int(rHeight), DODGE);
+    
+    //DODGE (lighter) looks good! gives me "into the spiderverse" (chromatic abberation) vibes
+    //SOFT_LIGHT is more gentle
+    //SCREEN is like DODGE, but with less color distortion going on.
+    //REPLACE makes my eyes blur (in a good way?) try it out ;)
   }
   
-  //lo-fi lines??
+  //lo-fi lines? wish i could make them fuzzier
   for (yPos = 0; yPos < height; yPos += 6) {
     fill(0, 40);
     rect(0, yPos, width, 2);
