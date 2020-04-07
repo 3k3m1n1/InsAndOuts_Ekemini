@@ -6,17 +6,16 @@ int xPos, yPos;
 int pixel; // 16 is full-on blocks, 4 feels "lo-fi," 2 is like an optimized mirror
 color c;
 float intensity;
+PImage rec;
+float rHeight;
 int state = 1;
 
 void setup() {
   size(640, 480);
   noStroke();
+  rec = loadImage("rec.png");
+  
   webcam = new Capture(this, 640, 480);  // creates a reference to your webcam
-  
-  //try this if line 14 doesn't work:
-  //String[] cameras = Capture.list();
-  //webcam = new Capture(this, 640, 480, cameras[0]);
-  
   webcam.start();  // turns on webcam
 }
 
@@ -53,6 +52,7 @@ void keyPressed() {
 }
 
 void ColorPalette() {
+  noTint();
   for (xPos = 0; xPos < width; xPos += pixel) {       //repeats the columns across canvas width
     for (yPos = 0; yPos < height; yPos += pixel) {    //column of pixels
       c = get(xPos, yPos);                            //grabs the color from each pixel (sorta like an eyedropper tool)
@@ -77,6 +77,7 @@ void ColorPalette() {
 }
 
 void Pixelate() {
+  noTint();
   for (xPos = 0; xPos < width; xPos += pixel) {       //repeats the columns across canvas width
     for (yPos = 0; yPos < height; yPos += pixel) {    //column of pixels
       c = get(xPos, yPos);                            //grabs the color from each pixel
@@ -89,8 +90,21 @@ void Pixelate() {
 }
 
 void Glitch() {
-  //
+  image(rec, 30, 40); //nice finishing touch, idk
+  filter(GRAY);
   
-  pixel = 2;
-  square(xPos, yPos, pixel);
+  //shifts random parts of the image
+  for (yPos = 0; yPos < height; yPos += 90) { 
+    rHeight = random(20, 100);
+    //tint(0, 153, 204);
+    blend(0, yPos, width, int(rHeight), int(random(-30, 40)), yPos, width, int(rHeight), SCREEN);
+    //DODGE and HARD_LIGHT both look good! SOFT_LIGHT is more gentle,  
+  }
+  
+  //lo-fi lines??
+  for (yPos = 0; yPos < height; yPos += 6) {
+    fill(0, 40);
+    rect(0, yPos, width, 2);
+  }
+  
 }
