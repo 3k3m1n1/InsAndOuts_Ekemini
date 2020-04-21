@@ -1,18 +1,24 @@
-// name: ekemini nkanta
-// title: mirror, mirror
-// instructions: switch webcam filters using the left & right arrow keys.
+/*
+ name: ekemini nkanta
+ title: mirror, mirror
+ instructions: switch webcam filters using the left & right arrow keys.
+               note: video library is currently incompatible w/ macOS catalina. please use mojave or older
+*/
 
 import processing.video.*;
 Capture webcam;
 
 color[] palette = {color(88, 24, 69), color(159, 12, 63), color(199, 94, 57), color(255, 195, 15)};
+int pixel; // 16 is full-on blocks, 4 feels "lo-fi," 2 is an optimized mirror. don't use 1
 int xPos, yPos;
-int pixel; // 16 is full-on blocks, 4 feels "lo-fi," 2 is like an optimized mirror
+int state = 1;
+
 color c;
 float intensity;
+
 PImage rec;
-float rHeight;
-int state = 1;
+float rPos, rWidth, rHeight;
+float currentTime, waitTime = 600, previousTime = 0;
 
 void setup() {
   size(640, 480);
@@ -94,24 +100,32 @@ void Pixelate() {
 }
 
 void Glitch() {
-  image(rec, 30, 40);                                 //nice finishing touch :)
+  image(rec, 30, 40);                                 //adds a nice touch :)
   //filter(GRAY);                                     //the plan was to add pops of color, but i can't tint B&W
   
-  //shifts random parts of the image
-  for (yPos = 0; yPos < height; yPos += int(random(110, 200))) { 
-    rHeight = random(5, 120);
-    blend(0, yPos, width, int(rHeight), int(random(-20, 30)), yPos, width, int(rHeight), DODGE);
+  currentTime = millis();                             //added a timer for less flashing!! so sorry D:
+  if (currentTime - previousTime >= waitTime) {
+    //shifts random parts of the image
+    for (yPos = 0; yPos < height; yPos += int(random(110, 200))) { 
+      rPos = random(width/2);
+      rWidth = random(width);
+      rHeight = random(5, 120);
+      
+      blend(int(rPos), yPos, int(rWidth), int(rHeight), int(rPos) + int(random(-20, 20)), yPos, int(rWidth), int(rHeight), DODGE);
+      //DODGE (lighter) gives me "into the spiderverse" vibes (chromatic abberation)
+      //SOFT_LIGHT is more gentle
+      //SCREEN is like DODGE, but with less color distortion going on. probably my favorite
+      //REPLACE makes my eyes blur... in a good way? try it out :o
+    }
     
-    //DODGE (lighter) looks good! gives me "into the spiderverse" (chromatic abberation) vibes
-    //SOFT_LIGHT is more gentle
-    //SCREEN is like DODGE, but with less color distortion going on.
-    //REPLACE makes my eyes blur (in a good way?) try it out ;)
+    // reset timer
+    previousTime = currentTime;
+    waitTime = random(500, 2000);                     //adds variety, so that the flickering isn't predictable
   }
   
-  //lo-fi lines? wish i could make them fuzzier
+  //lo-fi lines? for more of a camcorder look
   for (yPos = 0; yPos < height; yPos += 6) {
     fill(0, 40);
     rect(0, yPos, width, 2);
   }
-  
 }
