@@ -4,7 +4,7 @@ int bigSound = 3;
 
 bool noise = LOW;
 
-int pins[] = {0, 1, 2, 4, 7, 8};
+int pins[] = {6, 7, 8, 9, 10, 11};
 
 int led1[] = {0, 0, 1, 1, 1, 1, 1, 0, 0, 0};
 int led2[] = {0, 1, 1, 1, 0, 1, 1, 1, 0, 0};
