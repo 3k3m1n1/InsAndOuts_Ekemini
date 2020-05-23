@@ -14,13 +14,10 @@ void loop() {
   noKnockDetected = digitalRead(knockPin);
   if (noKnockDetected == LOW) {
 //    Serial.println("knock");
-//    Serial.write(1);
+    Serial.write(1);
     noKnockDetected = HIGH;
-//    delay(100);
+    delay(100);
   }
-
-  //***um my knock sensor isn't working anymore????
-  //just using the sound sensor for now
   
   chordPlayed = digitalRead(soundPin);
   if (chordPlayed) {

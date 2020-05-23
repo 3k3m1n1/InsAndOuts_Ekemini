@@ -1,8 +1,12 @@
 /*
 name: ekemini nkanta
-instructions: just play the guitar :) chords and bumps/taps trigger various effects
+final project: reactive projection art?
+instructions: just play the guitar (:
+              chords and knocks/taps trigger fun effects
 
-did i mention i'm horrible at math and waves are hard
+inspired by everyone mentioning arctic monkeys after my demo :')
+
+(did i mention i'm horrible at math and waves are hard)
 */
 
 import processing.serial.*;
@@ -10,11 +14,13 @@ Serial myPort;
 int messenger = 0;  //arduino -> processing
 float radius = 54;
 
+int f;
 int angle = 0;
 int amplitude = 0;
 float frequency = 4*PI; //values i like, 1.5, 4, 16
 int flatlineLength = 150;
-//boolean goingUp = true;
+
+float lastX, lastY;
 
 void setup() {
   size(800, 500);  //16:10
@@ -30,12 +36,12 @@ void draw() {
   }
   
   switch(messenger) {
-    case 1:  //percussion (shock)
+    case 1:  //percussion (shock sensor)
       radius = 0;
       messenger = 0;
       break;
-    case 2:  //chord (big sound)
-      //trigger?
+    case 2:  //chord (big sound sensor)
+      amplitude = 100;
       messenger = 0;
       break;
   }
@@ -67,36 +73,29 @@ void draw() {
   //left end of wave
   bezier(0, height/2, flatlineLength, height/2, 0, height/2, flatlineLength, height/2 + sin(angle)*amplitude);
   
-  for (int f = flatlineLength; f < width-flatlineLength; f+=frequency) {  //frequency!
-    circle(f, height/2 + sin(angle)*amplitude, 2);  //point() was too small
+  lastX = flatlineLength;
+  lastY = height/2 + sin(angle)*amplitude;
+  for (f = flatlineLength+1; f <= width-flatlineLength; f+=frequency) {  //frequency!
+    //circle(f, height/2 + sin(angle)*amplitude, 2);  //gotta connect the dots somehow
+    line(lastX, lastY, f, height/2 + sin(angle)*amplitude);  
+    lastX = f;
+    lastY = height/2 + sin(angle)*amplitude;
     angle += 2*frequency;
   }
-  if (amplitude >= 0) {
-    amplitude -= PI;  //sorry i'm just veryyy intrigued by the magic PI creates accidentally
-  }  
-  //if (goingUp) {
-  //  amplitude += 6;
-  //} else {
-  //  amplitude -= 4;
-  //}
-  //if (amplitude > 140) {
-  //  goingUp = false;
-  //}
-  //if (amplitude < -140) {
-  //  goingUp = true;
-  //}
-  //angle = 0;
+  if (amplitude >= 0) {  amplitude -= PI;  }  
   angle -= 2*frequency; //whoaaa this controls the speed??
                         //higher the multiplier, slower the wave (0 freezes it)
   
   //right end of wave
-  //line(width, height/2, width-flatlineLength, height/2); 
-  bezier(width, height/2, width-flatlineLength, height/2, width, height/2, width-flatlineLength, height/2 + sin(angle)*amplitude); 
-  //bezier(_, _, _, _, x1, x2, y1, y2);
+  bezier(width, height/2, (width-flatlineLength)-frequency, height/2, width, height/2, width-flatlineLength, height/2 + sin(angle)*amplitude); 
 }
 
+////////////////////
+
+//debugging without arduino
+
 void mouseClicked() {
-  amplitude = 140;
+  amplitude = 100;
 }
 
 void keyPressed() {
