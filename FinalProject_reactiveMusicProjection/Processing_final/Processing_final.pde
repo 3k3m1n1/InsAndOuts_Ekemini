@@ -84,7 +84,7 @@ void draw() {
   }
   if (amplitude >= 0) {  amplitude -= PI;  }  
   angle -= 2*frequency; //whoaaa this controls the speed??
-                        //higher the multiplier, slower the wave (0 freezes it)
+                         //higher the multiplier, slower the wave (0 freezes it)
   
   //right end of wave
   bezier(width, height/2, (width-flatlineLength)-frequency, height/2, width, height/2, width-flatlineLength, height/2 + sin(angle)*amplitude); 
@@ -98,6 +98,6 @@ void mouseClicked() {
   amplitude = 100;
 }
 
-void keyPressed() {
+void keyTyped() {
   radius = 0;
 }
